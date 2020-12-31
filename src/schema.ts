@@ -3,6 +3,7 @@ export interface ArtType  {
     name: string
     pic : string
     price: number
+    description: string
     owner: UserType
 }
 

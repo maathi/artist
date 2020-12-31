@@ -15,6 +15,7 @@ const GET_USER = gql`
         id
         name
         pic
+        price
         owner {
           name
         }
@@ -59,7 +60,7 @@ function User() {
       {user ? (
         <div>
           <h4>
-            <span style={{ color: "white" }}>{user.name}</span>'s arts :
+            <span style={{ color: "white" }}>{user.name}</span>'s paintings :
           </h4>
           <div className="arts">
             {user.arts.map((j) => (
