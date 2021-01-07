@@ -1,6 +1,7 @@
 import { useMutation, gql } from "@apollo/client"
 import { useEffect, useState } from "react"
 import { UserType } from "../../schema"
+import { Link } from "react-router-dom"
 
 const ADD_USER = gql`
   mutation AddUser($name: String, $password: String) {
@@ -11,10 +12,8 @@ const ADD_USER = gql`
     }
   }
 `
-
-//they are called trainers :(
 function Register() {
-  let [user, setUser] = useState<UserType>()
+  let [user, setUser] = useState()
   let [name, setName] = useState("")
   let [password, setPassword] = useState("")
   const [addUser, { data }] = useMutation(ADD_USER)
@@ -34,6 +33,7 @@ function Register() {
 
     localStorage.setItem("id", user.id.toString())
     localStorage.setItem("name", user.name.toString())
+    window.location.href = "/paintings"
   }, [user])
 
   return (
@@ -53,6 +53,9 @@ function Register() {
       <button onClick={() => addUser({ variables: { name, password } })}>
         Register
       </button>
+      <span>
+        already have an account? <Link to="/login">login</Link>
+      </span>
       {user ? <p>{user.name} was added!</p> : ""}
     </div>
   )

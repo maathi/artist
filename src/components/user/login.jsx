@@ -1,19 +1,20 @@
 import { useLazyQuery, gql } from "@apollo/client"
 import { useEffect, useState } from "react"
 import { UserType } from "../../schema"
-
+import { Link } from "react-router-dom"
 const LOG_IN = gql`
   query Login($name: String, $password: String) {
     login(name: $name, password: $password) {
       id
       name
       password
+      photo
     }
   }
 `
 
 function Login() {
-  let [user, setUser] = useState<UserType>()
+  let [user, setUser] = useState()
   let [name, setName] = useState("")
   let [password, setPassword] = useState("")
 
@@ -33,6 +34,8 @@ function Login() {
 
     localStorage.setItem("id", user.id.toString())
     localStorage.setItem("name", user.name.toString())
+    localStorage.setItem("photo", user.photo)
+    window.location.href = "/paintings"
   }, [user])
 
   if (loading) return <p>loading...</p>
@@ -56,6 +59,9 @@ function Login() {
         Login
       </button>
 
+      <span>
+        not a user? <Link to="/register">register</Link>
+      </span>
       {user ? <p>{user.name} logged in!</p> : ""}
     </div>
   )

@@ -1,12 +1,14 @@
-@import url("https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Caveat&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Caveat&family=Permanent+Marker&display=swap");
 body {
-  background-color: #a50073;
+  background-color: #460031;
   margin: auto;
+  color: white;
 }
 
 .App {
   text-align: center;
-  font-family: "Indie Flower", cursive;
+  font-family: "Caveat", cursive;
+
   font-size: 2rem;
 }

@@ -7,21 +7,21 @@ import New from "./components/art/new"
 import User from "./components/user/user"
 import Register from "./components/user/register"
 import Login from "./components/user/login"
-import Nav from "./components/nav"
+import Nav from "./components/nav.jsx"
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <Nav></Nav>
+        {localStorage.getItem("id") ? <Nav></Nav> : ""}
         <Switch>
-          <Route path="/arts/new">
+          <Route path="/paintings/new">
             <New></New>
           </Route>
-          <Route path="/arts/:id">
+          <Route path="/paintings/:id">
             <Art></Art>
           </Route>
-          <Route path="/arts">
+          <Route path="/paintings">
             <Arts></Arts>
           </Route>
           <Route path="/users/:id">

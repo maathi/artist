@@ -1,6 +1,8 @@
-import { useMutation, gql, useQuery } from "@apollo/client"
+import { useMutation, gql } from "@apollo/client"
 import { useState, useEffect } from "react"
 import Canvas from "./canvas"
+import { HexColorPicker } from "react-colorful"
+import "react-colorful/dist/index.css"
 
 const ADD_ART = gql`
   mutation AddArt(
@@ -22,18 +24,6 @@ const ADD_ART = gql`
     }
   }
 `
-const UPLOAD_FILE = gql`
-  mutation Upload($file: Upload!) {
-    upload(file: $file)
-  }
-`
-const SINGLE_UPLOAD_MUTATION = gql`
-  mutation singleUpload($file: Upload!) {
-    singleUpload(file: $file) {
-      id
-    }
-  }
-`
 
 function New() {
   let [art, setArt] = useState()
@@ -41,6 +31,8 @@ function New() {
   let [file, setFile] = useState()
   let [price, setPrice] = useState("")
   let [description, setDescription] = useState("")
+  let [color, setColor] = useState("#000")
+  let [lineWidth, setLineWidth] = useState(3)
 
   const [addArt, { data }] = useMutation(ADD_ART)
 
@@ -80,8 +72,16 @@ function New() {
           }
         }}
       />
-      <Canvas setFile={setFile}></Canvas>
-
+      <Canvas color={color} lineWidth={lineWidth} setFile={setFile}></Canvas>
+      <input
+        type="range"
+        min="1"
+        max="60"
+        value={lineWidth}
+        onChange={(e) => setLineWidth(e.target.value)}
+      ></input>
+      {lineWidth}
+      <HexColorPicker onChange={setColor} />
       <button
         onClick={() => {
           addArt({
