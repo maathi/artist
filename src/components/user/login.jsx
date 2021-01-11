@@ -26,6 +26,7 @@ function Login() {
       setUser(user)
     }
 
+    localStorage.setItem("token", data.login)
     decode()
   }, [data])
 

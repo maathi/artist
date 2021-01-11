@@ -9,7 +9,6 @@ const GET_ARTS = gql`
       id
       name
       pic
-      price
       owner {
         id
         name

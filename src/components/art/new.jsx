@@ -5,20 +5,8 @@ import { HexColorPicker } from "react-colorful"
 import "react-colorful/dist/index.css"
 
 const ADD_ART = gql`
-  mutation AddArt(
-    $name: String
-    $owner_id: Int
-    $file: Upload!
-    $price: Int
-    $description: String
-  ) {
-    addArt(
-      name: $name
-      owner_id: $owner_id
-      file: $file
-      price: $price
-      description: $description
-    ) {
+  mutation AddArt($name: String, $file: Upload!, $description: String) {
+    addArt(name: $name, file: $file, description: $description) {
       id
       name
     }
@@ -29,7 +17,6 @@ function New() {
   let [art, setArt] = useState()
   let [name, setName] = useState("")
   let [file, setFile] = useState()
-  let [price, setPrice] = useState("")
   let [description, setDescription] = useState("")
   let [color, setColor] = useState("#000")
   let [lineWidth, setLineWidth] = useState(3)
@@ -51,15 +38,6 @@ function New() {
         onChange={(e) => {
           {
             setName(e.target.value)
-          }
-        }}
-      />
-      <input
-        placeholder="price"
-        value={price}
-        onChange={(e) => {
-          {
-            setPrice(e.target.value)
           }
         }}
       />
@@ -87,9 +65,7 @@ function New() {
           addArt({
             variables: {
               name: name,
-              owner_id: Number(localStorage.getItem("id")),
               file: file,
-              price: Number(price),
               description: description,
             },
           })

@@ -33,8 +33,8 @@ const DELETE_ART = gql`
   }
 `
 const UPDATE_PHOTO = gql`
-  mutation UpdatePhoto($id: Int, $photo: Upload) {
-    updatePhoto(id: $id, photo: $photo) {
+  mutation UpdatePhoto($photo: Upload) {
+    updatePhoto(photo: $photo) {
       photo
     }
   }
@@ -64,7 +64,7 @@ function User() {
       files: [photo],
     },
   }) {
-    validity.valid && updatePhoto({ variables: { id: Number(id), photo } })
+    validity.valid && updatePhoto({ variables: { photo } })
   }
 
   function handleClick() {
