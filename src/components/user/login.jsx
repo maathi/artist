@@ -2,14 +2,11 @@ import { useLazyQuery, gql } from "@apollo/client"
 import { useEffect, useState } from "react"
 import { UserType } from "../../schema"
 import { Link } from "react-router-dom"
+
+import jwt from "jsonwebtoken"
 const LOG_IN = gql`
   query Login($name: String, $password: String) {
-    login(name: $name, password: $password) {
-      id
-      name
-      password
-      photo
-    }
+    login(name: $name, password: $password)
   }
 `
 
@@ -24,9 +21,12 @@ function Login() {
     if (!data) return
     if (!data.login) return
 
-    setUser(data.login)
-    // localStorage.setItem("userId", data.login.id)
-    // localStorage.setItem("userName", data.login.name)
+    async function decode() {
+      let user = await jwt.decode(data.login)
+      setUser(user)
+    }
+
+    decode()
   }, [data])
 
   useEffect(() => {
