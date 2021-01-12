@@ -9,7 +9,6 @@ const GET_ART = gql`
       id
       name
       pic
-      price
       description
       owner {
         id
@@ -56,10 +55,6 @@ function Art() {
         <Link to={`/users/${art?.owner.id}`} style={{ color: "white" }}>
           {art?.owner.name}
         </Link>
-      </p>
-      <p style={{ fontSize: "18px" }}>
-        <span>Price :</span>
-        <span style={{ color: "white" }}> {art?.price} million USD</span>
       </p>
       <p style={{ fontSize: "18px" }}>
         <span>Description :</span>
