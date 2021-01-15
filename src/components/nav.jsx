@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import logo from "../img/artist.png"
-
+import { RiPaintBrushFill } from "react-icons/ri"
+import { FaPaintBrush } from "react-icons/fa"
 import "../styles/navbar.css"
 function Nav(props) {
   function logout() {
@@ -11,10 +12,14 @@ function Nav(props) {
   return (
     <ul id="nav">
       <li>
-        <img id="logo" src={logo} alt="" />
+        <Link to="/paintings">
+          <img id="logo" src={logo} alt="" />
+        </Link>
       </li>
       <li>
-        <Link to="/paintings/new">+</Link>
+        <Link to="/paintings/new">
+          <FaPaintBrush id="brush" />
+        </Link>
       </li>
       <li>
         <Link to="/paintings">paintings</Link>

@@ -24,7 +24,7 @@
 }
 
 #name {
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 
 .wrapper {
@@ -51,12 +51,18 @@
   /* border-radius: 5px; */
 }
 
-#user-info {
-  justify-content: right;
+#bottom {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.7rem;
+}
+
+#user-info {
+  display: flex;
+  justify-content: right;
   align-items: center;
   column-gap: 0.4rem;
-  font-size: 18px;
 }
 
 #user-info img {
@@ -65,8 +71,22 @@
   object-fit: cover;
   border-radius: 100%;
   border: 2.5px solid black;
+  transition: 0.3s;
+}
+
+#user-info img:hover {
+  border: 2.5px solid white;
+}
+
+#user-info :first-child:hover + a > img {
+  background-color: yellow;
+  border: 2.5px solid white;
 }
 
 #user-info a {
   text-decoration: none;
+}
+
+#heart {
+  color: rgb(167, 167, 167);
 }

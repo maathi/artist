@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { ArtType } from "../../schema"
 import { Link } from "react-router-dom"
+
 const GET_ART = gql`
   query Art($id: Int) {
     art(id: $id) {
@@ -63,4 +64,5 @@ function Art() {
     </div>
   )
 }
+
 export default Art

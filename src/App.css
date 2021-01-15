@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Caveat&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Caveat&family=Permanent+Marker&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Yusei+Magic&display=swap");
+
 body {
   background-color: #460031;
   margin: auto;
@@ -8,7 +10,8 @@ body {
 
 .App {
   text-align: center;
-  font-family: "Caveat", cursive;
-
-  font-size: 2rem;
+  /* font-size: 2rem;
+  font-family: "Caveat", cursive; */
+  font-family: "Yusei Magic", sans-serif;
+  /* font-size: 8px; */
 }

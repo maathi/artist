@@ -11,6 +11,7 @@
   border: 3px solid black;
   width: 100%;
   height: 100%;
+  margin: auto;
 }
 
 #delete {
@@ -23,5 +24,28 @@
 
 #delete:hover {
   color: red;
+  transition: 0.3s;
+}
+
+textarea {
+  /* display: block; */
+  border: none;
+  color: rgb(211, 211, 211);
+  font-size: inherit;
+  text-align: center;
+  font-family: inherit;
+  background-color: inherit;
+}
+
+#save {
+  display: block;
+  margin: auto;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#save:hover {
+  color: rgb(0, 173, 0);
   transition: 0.3s;
 }

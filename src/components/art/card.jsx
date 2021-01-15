@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import "../../styles/arts.css"
 import "../../styles/card.css"
-
+import { FaRegHeart } from "react-icons/fa"
 function Card({ j }) {
   return (
     <div className="card">
@@ -13,18 +13,21 @@ function Card({ j }) {
         </Link>
       </div>
 
-      <div id="user-info">
-        <Link to={`/users/${j.owner.id}`} style={{ color: "white" }}>
-          {j.owner.name}
-        </Link>
+      <div id="bottom">
+        <FaRegHeart id="heart" />
+        <div id="user-info">
+          <Link to={`/users/${j.owner.id}`} style={{ color: "white" }}>
+            {j.owner.name}
+          </Link>
 
-        <Link to={`/users/${j.owner.id}`}>
-          <img
-            src={`http://localhost:4000/${j.owner.photo}`}
-            alt=""
-            style={{ height: "1.4rem" }}
-          />
-        </Link>
+          <Link to={`/users/${j.owner.id}`}>
+            <img
+              src={`http://localhost:4000/${j.owner.photo}`}
+              alt=""
+              style={{ height: "1.4rem" }}
+            />
+          </Link>
+        </div>
       </div>
     </div>
   )

@@ -5,8 +5,7 @@ import { UserType } from "../../schema"
 import Card from "../art/card"
 import "../../styles/arts.css"
 import "../../styles/user.css"
-import { FaTimesCircle, FaSave } from "react-icons/fa"
-
+import { FaTimesCircle } from "react-icons/fa"
 const GET_USER = gql`
   query User($id: Int) {
     user(id: $id) {
@@ -14,7 +13,6 @@ const GET_USER = gql`
       name
       password
       photo
-      intro
       arts {
         id
         name
@@ -41,19 +39,9 @@ const UPDATE_PHOTO = gql`
     }
   }
 `
-
-const UPDATE_INTRO = gql`
-  mutation UpdateIntro($intro: String) {
-    updateIntro(intro: $intro) {
-      intro
-    }
-  }
-`
-function User() {
+function Profile() {
   let [user, setUser] = useState()
   let [arts, setArts] = useState()
-  let [intro, setIntro] = useState("")
-  let [isProfile, setIsProfile] = useState()
   let { id } = useParams()
 
   const { loading, error, data } = useQuery(GET_USER, {
@@ -61,7 +49,6 @@ function User() {
   })
 
   const [updatePhoto, { photoData }] = useMutation(UPDATE_PHOTO)
-  const [updateIntro, { introData }] = useMutation(UPDATE_INTRO)
   const [deleteArt, { data: deletedArtdata }] = useMutation(DELETE_ART)
 
   useEffect(() => {
@@ -69,8 +56,6 @@ function User() {
     if (!data.user) return
 
     setUser(data.user)
-    setIntro(data.user.intro || "")
-    if (data.user.id == localStorage.getItem("id")) setIsProfile(true)
   }, [data])
 
   useEffect(() => {
@@ -120,22 +105,6 @@ function User() {
             type="file"
             onChange={handleUpload}
           />
-          <textarea
-            value={intro}
-            onChange={(e) => setIntro(e.target.value)}
-            name=""
-            id=""
-            cols="50"
-            placeholder="what's up?"
-          ></textarea>
-          {intro ? (
-            <FaSave
-              id="save"
-              onClick={() => updateIntro({ variables: { intro } })}
-            />
-          ) : (
-            ""
-          )}
           <h4>
             <span style={{ color: "white" }}>{user.name}</span>'s paintings :
           </h4>
@@ -149,18 +118,14 @@ function User() {
                     <img src={`http://localhost:4000/${a.pic}.png`} alt="" />
                   </Link>
                 </div>
-                {isProfile ? (
-                  <div>
-                    <FaTimesCircle
-                      id="delete"
-                      onClick={() => {
-                        handleDelete(a.id)
-                      }}
-                    />
-                  </div>
-                ) : (
-                  ""
-                )}
+                <div>
+                  <FaTimesCircle
+                    id="delete"
+                    onClick={() => {
+                      handleDelete(a.id)
+                    }}
+                  />
+                </div>
               </div>
             ))}
           </div>
@@ -172,4 +137,4 @@ function User() {
   )
 }
 
-export default User
+export default Profile

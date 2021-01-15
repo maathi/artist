@@ -2,7 +2,7 @@ import { useMutation, gql } from "@apollo/client"
 import { useEffect, useState } from "react"
 import { UserType } from "../../schema"
 import { Link } from "react-router-dom"
-
+import logo from "../../img/artist.png"
 const ADD_USER = gql`
   mutation AddUser($name: String, $password: String) {
     addUser(name: $name, password: $password) {
@@ -38,21 +38,24 @@ function Register() {
 
   return (
     <div>
-      <input
-        type="text"
-        placeholder="name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={() => addUser({ variables: { name, password } })}>
-        Register
-      </button>
+      <img id="login-logo" src={logo} alt="" />
+      <form>
+        <input
+          type="text"
+          placeholder="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button onClick={() => addUser({ variables: { name, password } })}>
+          Register
+        </button>
+      </form>
       <span>
         already have an account? <Link to="/login">login</Link>
       </span>

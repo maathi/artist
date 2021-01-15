@@ -2,6 +2,9 @@ import { useLazyQuery, gql } from "@apollo/client"
 import { useEffect, useState } from "react"
 import { UserType } from "../../schema"
 import { Link } from "react-router-dom"
+import { useFormik } from "formik"
+import "../../styles/login.css"
+import logo from "./../../img/artist.png"
 
 import jwt from "jsonwebtoken"
 const LOG_IN = gql`
@@ -12,10 +15,26 @@ const LOG_IN = gql`
 
 function Login() {
   let [user, setUser] = useState()
-  let [name, setName] = useState("")
-  let [password, setPassword] = useState("")
 
   const [login, { loading, data, error }] = useLazyQuery(LOG_IN)
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      password: "",
+    },
+    validate: (values) => {
+      let errors = {}
+      if (!values.name) errors.name = "you need to tell me your name"
+      if (!values.password) errors.password = "you need a password"
+      return errors
+    },
+    onSubmit: (values) => {
+      login({
+        variables: { name: values.name, password: values.password },
+      })
+    },
+  })
 
   useEffect(() => {
     if (!data) return
@@ -43,27 +62,43 @@ function Login() {
   if (error) return <p>`Error! ${error}`</p>
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={() => login({ variables: { name, password } })}>
-        Login
-      </button>
+    <div id="login-page">
+      <img id="login-logo" src={logo} alt="" />
+      <form onSubmit={formik.handleSubmit}>
+        <input
+          type="text"
+          name="name"
+          placeholder="name"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.name}
+        />
+        <div className="error">
+          {formik.touched.name && formik.errors.name
+            ? formik.errors.name
+            : null}
+        </div>
+        <input
+          id="password"
+          name="password"
+          placeholder="password"
+          type="text"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.password}
+        />
 
-      <span>
+        <div className="error">
+          {formik.touched.password && formik.errors.password
+            ? formik.errors.password
+            : null}
+        </div>
+
+        <button type="submit">Login</button>
+      </form>
+      <span id="not-a-user">
         not a user? <Link to="/register">register</Link>
       </span>
-      {user ? <p>{user.name} logged in!</p> : ""}
     </div>
   )
 }
