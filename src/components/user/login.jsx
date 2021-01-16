@@ -5,8 +5,8 @@ import { Link } from "react-router-dom"
 import { useFormik } from "formik"
 import "../../styles/login.css"
 import logo from "./../../img/artist.png"
-
 import jwt from "jsonwebtoken"
+
 const LOG_IN = gql`
   query Login($name: String, $password: String) {
     login(name: $name, password: $password)
@@ -15,19 +15,13 @@ const LOG_IN = gql`
 
 function Login() {
   let [user, setUser] = useState()
-
+  let [loginError, setLoginError] = useState("")
   const [login, { loading, data, error }] = useLazyQuery(LOG_IN)
 
   const formik = useFormik({
     initialValues: {
       name: "",
       password: "",
-    },
-    validate: (values) => {
-      let errors = {}
-      if (!values.name) errors.name = "you need to tell me your name"
-      if (!values.password) errors.password = "you need a password"
-      return errors
     },
     onSubmit: (values) => {
       login({
@@ -38,7 +32,10 @@ function Login() {
 
   useEffect(() => {
     if (!data) return
-    if (!data.login) return
+    if (!data.login) {
+      setLoginError("your username and password don't match... genius")
+      return
+    }
 
     async function decode() {
       let user = await jwt.decode(data.login)
@@ -64,7 +61,7 @@ function Login() {
   return (
     <div id="login-page">
       <img id="login-logo" src={logo} alt="" />
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={formik.handleSubmit} autoComplete="off">
         <input
           type="text"
           name="name"
@@ -95,6 +92,7 @@ function Login() {
         </div>
 
         <button type="submit">Login</button>
+        <div className="error">{loginError ? loginError : null}</div>
       </form>
       <span id="not-a-user">
         not a user? <Link to="/register">register</Link>

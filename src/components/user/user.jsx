@@ -129,10 +129,15 @@ function User() {
             placeholder="what's up?"
           ></textarea>
           {intro ? (
-            <FaSave
-              id="save"
-              onClick={() => updateIntro({ variables: { intro } })}
-            />
+            <div>
+              <button
+                onClick={() => updateIntro({ variables: { intro } })}
+                style={{ backgroundColor: "green", color: "white" }}
+              >
+                <FaSave id="save" />
+                save
+              </button>
+            </div>
           ) : (
             ""
           )}
