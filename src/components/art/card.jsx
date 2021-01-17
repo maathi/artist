@@ -16,11 +16,11 @@ function Card({ j }) {
       <div id="bottom">
         <FaRegHeart id="heart" />
         <div id="user-info">
-          <Link to={`/users/${j.owner.id}`} style={{ color: "white" }}>
+          <Link to={`/@${j.owner.name}`} style={{ color: "white" }}>
             {j.owner.name}
           </Link>
 
-          <Link to={`/users/${j.owner.id}`}>
+          <Link to={`/@${j.owner.name}`}>
             <img
               src={`http://localhost:4000/${j.owner.photo}`}
               alt=""

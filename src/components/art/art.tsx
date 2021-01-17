@@ -53,7 +53,7 @@ function Art() {
 
       <p style={{ fontSize: "18px" }}>
         <span>Created by : </span>
-        <Link to={`/users/${art?.owner.id}`} style={{ color: "white" }}>
+        <Link to={`/@${art?.owner.name}`} style={{ color: "white" }}>
           {art?.owner.name}
         </Link>
       </p>

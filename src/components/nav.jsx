@@ -31,7 +31,7 @@ function Nav(props) {
           alt=""
         />
 
-        <Link to={"/users/" + localStorage.getItem("id")}>
+        <Link to={"/@" + localStorage.getItem("name")}>
           {localStorage.getItem("name")}
         </Link>
       </li>

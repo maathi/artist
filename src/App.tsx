@@ -15,6 +15,9 @@ function App() {
       <div className="App">
         {localStorage.getItem("id") ? <Nav></Nav> : ""}
         <Switch>
+          <Route path="/@:name">
+            <User></User>
+          </Route>
           <Route path="/paintings/new">
             <New></New>
           </Route>

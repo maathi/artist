@@ -8,8 +8,8 @@ import "../../styles/user.css"
 import { FaTimesCircle, FaSave } from "react-icons/fa"
 
 const GET_USER = gql`
-  query User($id: Int) {
-    user(id: $id) {
+  query UserByName($name: String) {
+    userByName(name: $name) {
       id
       name
       password
@@ -54,10 +54,12 @@ function User() {
   let [arts, setArts] = useState()
   let [intro, setIntro] = useState("")
   let [isProfile, setIsProfile] = useState()
-  let { id } = useParams()
+  let { name } = useParams()
+
+  console.log("thenameis", useParams())
 
   const { loading, error, data } = useQuery(GET_USER, {
-    variables: { id: Number(id) },
+    variables: { name },
   })
 
   const [updatePhoto, { photoData }] = useMutation(UPDATE_PHOTO)
@@ -66,11 +68,11 @@ function User() {
 
   useEffect(() => {
     if (!data) return
-    if (!data.user) return
+    if (!data.userByName) return
 
-    setUser(data.user)
-    setIntro(data.user.intro || "")
-    if (data.user.id == localStorage.getItem("id")) setIsProfile(true)
+    setUser(data.userByName)
+    setIntro(data.userByName.intro || "")
+    if (data.userByName.id == localStorage.getItem("id")) setIsProfile(true)
   }, [data])
 
   useEffect(() => {
@@ -105,76 +107,73 @@ function User() {
 
   return (
     <div>
-      {user ? (
-        <div id="user">
-          <div className="photo-wrapper">
-            <img
-              src={`http://localhost:4000/${user.photo}`}
-              alt=""
-              onClick={handleClick}
-            />
-          </div>
-          <input
-            style={{ display: "none" }}
-            id="upload"
-            type="file"
-            onChange={handleUpload}
+      <div id="user">
+        <div className="photo-wrapper">
+          <img
+            src={`http://localhost:4000/${user?.photo}`}
+            alt=""
+            onClick={handleClick}
           />
-          <textarea
-            value={intro}
-            onChange={(e) => setIntro(e.target.value)}
-            name=""
-            id=""
-            cols="50"
-            placeholder="what's up?"
-          ></textarea>
-          {intro ? (
-            <div>
-              <button
-                onClick={() => updateIntro({ variables: { intro } })}
-                style={{ backgroundColor: "green", color: "white" }}
-              >
-                <FaSave id="save" />
-                save
-              </button>
-            </div>
-          ) : (
-            ""
-          )}
-          <h4>
-            <span style={{ color: "white" }}>{user.name}</span>'s paintings :
-          </h4>
-          <div className="arts">
-            {user.arts.map((a) => (
-              <div key={a.id} className="card">
-                <span id="name">{a.name}</span>
-
-                <div className="wrapper">
-                  <Link to={`/paintings/${a.id}`}>
-                    <img src={`http://localhost:4000/${a.pic}.png`} alt="" />
-                  </Link>
-                </div>
-                {isProfile ? (
-                  <div>
-                    <FaTimesCircle
-                      id="delete"
-                      onClick={() => {
-                        handleDelete(a.id)
-                      }}
-                    />
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div>
-            ))}
-          </div>
         </div>
-      ) : (
-        ""
-      )}
+        <input
+          style={{ display: "none" }}
+          id="upload"
+          type="file"
+          onChange={handleUpload}
+        />
+        <textarea
+          value={intro}
+          onChange={(e) => setIntro(e.target.value)}
+          name=""
+          id=""
+          cols="50"
+          placeholder="what's up?"
+        ></textarea>
+        {intro ? (
+          <div>
+            <button
+              onClick={() => updateIntro({ variables: { intro } })}
+              style={{ backgroundColor: "green", color: "white" }}
+            >
+              <FaSave id="save" />
+              save
+            </button>
+          </div>
+        ) : (
+          ""
+        )}
+        <h4>
+          <span style={{ color: "white" }}>{user?.name}</span>'s paintings :
+        </h4>
+        <div className="arts">
+          {user?.arts.map((a) => (
+            <div key={a.id} className="card">
+              <span id="name">{a.name}</span>
+
+              <div className="wrapper">
+                <Link to={`/paintings/${a.id}`}>
+                  <img src={`http://localhost:4000/${a.pic}.png`} alt="" />
+                </Link>
+              </div>
+              {isProfile ? (
+                <div>
+                  <FaTimesCircle
+                    id="delete"
+                    onClick={() => {
+                      handleDelete(a.id)
+                    }}
+                  />
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
 
+function Profile() {}
 export default User
