@@ -39,9 +39,17 @@ function Register() {
     },
     validationSchema: Yup.object({
       name: Yup.string()
-        .max(15, "Must be 15 characters or less")
-        .min(3, "name must be at least 3 characters long")
-        .required("Required")
+        .max(15, "username must be 15 characters or less")
+        .min(3, "username must be at least 3 characters long")
+        .matches(
+          /^[a-z0-9_]+$/i,
+          "Username can only contain alphanumeric characters"
+        )
+        .matches(
+          /^[a-z].*/,
+          "Username has to start with an alphabetic character"
+        )
+        .required("A username is required")
         .test("check username", "username already exists!", async (value) => {
           let fo = await checkName({ variables: { name: value } })
           console.log(fo)
@@ -50,8 +58,9 @@ function Register() {
           return !checkNameData?.checkName
         }),
       password: Yup.string()
-        .max(20, "Must be 20 characters or less")
-        .required("Required"),
+        .max(30, "Password must be 30 characters or less")
+        .min(4, "Password must be at least 4 characters long")
+        .required("A password is Required"),
     }),
     onSubmit: (values) => {
       addUser({
@@ -120,11 +129,12 @@ function Register() {
   return (
     <div>
       <img id="login-logo" src={logo} alt="" />
-      <form onSubmit={formik.handleSubmit} autoComplete="off">
+      <h1>Register</h1>
+      <form id="user-form" onSubmit={formik.handleSubmit} autoComplete="off">
         <input
           type="text"
           name="name"
-          placeholder="name"
+          placeholder="pick a username"
           value={formik.values.name}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
@@ -147,6 +157,7 @@ function Register() {
             : null}
         </div>
         <button type="submit">Register</button>
+        <div className="error"></div>
       </form>
       <span>
         already have an account? <Link to="/login">login</Link>

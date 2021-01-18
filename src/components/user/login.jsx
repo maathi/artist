@@ -61,6 +61,7 @@ function Login() {
   return (
     <div id="login-page">
       <img id="login-logo" src={logo} alt="" />
+      <h1>Login</h1>
       <form id="user-form" onSubmit={formik.handleSubmit} autoComplete="off">
         <input
           type="text"
