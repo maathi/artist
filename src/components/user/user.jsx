@@ -1,9 +1,6 @@
 import { useQuery, useMutation, gql } from "@apollo/client"
-import { isValidElement, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useParams, Link } from "react-router-dom"
-import { UserType } from "../../schema"
-import Card from "../art/card"
-import "../../styles/arts.css"
 import "../../styles/user.css"
 import { FaTimesCircle, FaSave } from "react-icons/fa"
 
@@ -51,19 +48,16 @@ const UPDATE_INTRO = gql`
 `
 function User() {
   let [user, setUser] = useState()
-  let [arts, setArts] = useState()
   let [intro, setIntro] = useState("")
-  let [isProfile, setIsProfile] = useState()
+  let [isProfile, setIsProfile] = useState(false)
   let { name } = useParams()
-
-  console.log("thenameis", useParams())
 
   const { loading, error, data } = useQuery(GET_USER, {
     variables: { name },
   })
 
-  const [updatePhoto, { photoData }] = useMutation(UPDATE_PHOTO)
-  const [updateIntro, { introData }] = useMutation(UPDATE_INTRO)
+  const [updatePhoto, { data: photoData }] = useMutation(UPDATE_PHOTO)
+  const [updateIntro, { data: introData }] = useMutation(UPDATE_INTRO)
   const [deleteArt, { data: deletedArtdata }] = useMutation(DELETE_ART)
 
   useEffect(() => {
@@ -102,12 +96,9 @@ function User() {
     deleteArt({ variables: { id: Number(id) } })
   }
 
-  if (loading) return <h1>loading...</h1>
-  if (error) return <h1>error!</h1>
-
-  return (
-    <div>
-      <div id="user">
+  function profileInfo() {
+    return (
+      <div id="infos">
         <div className="photo-wrapper">
           <img
             src={`http://localhost:4000/${user?.photo}`}
@@ -142,38 +133,61 @@ function User() {
         ) : (
           ""
         )}
-        <h4>
-          <span style={{ color: "white" }}>{user?.name}</span>'s paintings :
-        </h4>
-        <div className="arts">
-          {user?.arts.map((a) => (
-            <div key={a.id} className="card">
-              <span id="name">{a.name}</span>
+      </div>
+    )
+  }
 
-              <div className="wrapper">
-                <Link to={`/paintings/${a.id}`}>
-                  <img src={`http://localhost:4000/${a.pic}.png`} alt="" />
-                </Link>
-              </div>
-              {isProfile ? (
-                <div>
-                  <FaTimesCircle
-                    id="delete"
-                    onClick={() => {
-                      handleDelete(a.id)
-                    }}
-                  />
-                </div>
-              ) : (
-                ""
-              )}
-            </div>
-          ))}
+  function notProfileInfo() {
+    return (
+      <div id="infos">
+        <div className="photo-wrapper">
+          <img src={`http://localhost:4000/${user?.photo}`} alt="" />
         </div>
+        <p>{intro}</p>
+      </div>
+    )
+  }
+
+  function card(a) {
+    return (
+      <div key={a.id} className="card">
+        <span id="name">{a.name}</span>
+
+        <div className="wrapper">
+          <Link to={`/paintings/${a.id}`}>
+            <img src={`http://localhost:4000/${a.pic}.png`} alt="" />
+          </Link>
+        </div>
+        {isProfile ? (
+          <div>
+            <FaTimesCircle
+              id="delete"
+              onClick={() => {
+                handleDelete(a.id)
+              }}
+            />
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
+    )
+  }
+
+  if (loading) return <h1>loading...</h1>
+  if (error) return <h1>error!</h1>
+
+  return (
+    <div id="user">
+      {isProfile ? profileInfo() : notProfileInfo()}
+      <div id="user-arts">
+        <h4>
+          <span>{user?.name}</span>'s paintings :
+        </h4>
+        <div className="arts">{user?.arts.map((a) => card(a))}</div>
       </div>
     </div>
   )
 }
 
-function Profile() {}
 export default User

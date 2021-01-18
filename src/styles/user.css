@@ -1,10 +1,10 @@
-#user > .photo-wrapper {
+#user .photo-wrapper {
   width: 10rem;
   height: 10rem;
   margin: 1rem auto;
 }
 
-#user > .photo-wrapper > img {
+#user .photo-wrapper > img {
   cursor: pointer;
   object-fit: cover;
   border-radius: 100%;

@@ -27,9 +27,6 @@ function App() {
           <Route path="/paintings">
             <Arts></Arts>
           </Route>
-          <Route path="/users/:id">
-            <User></User>
-          </Route>
           <Route path="/login">
             <Login></Login>
           </Route>
