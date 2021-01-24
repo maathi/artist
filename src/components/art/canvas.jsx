@@ -52,6 +52,7 @@ export default function Canvas(props) {
     setMouse("up")
     let data = canvas.toDataURL()
     let file = dataURItoBlob(data)
+    console.log("file", file, "type", file.type, "size", file.size)
     props.setFile(file)
   }
 

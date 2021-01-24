@@ -9,7 +9,7 @@ function Card({ j }) {
 
       <div className="wrapper">
         <Link to={`/paintings/${j.id}`}>
-          <img src={`http://localhost:4000/${j.pic}.png`} alt="" />
+          <img src={`${process.env.REACT_APP_URL}/${j.pic}.png`} alt="" />
         </Link>
       </div>
 
@@ -22,7 +22,7 @@ function Card({ j }) {
 
           <Link to={`/@${j.owner.name}`}>
             <img
-              src={`http://localhost:4000/${j.owner.photo}`}
+              src={`${process.env.REACT_APP_URL}/${j.owner.photo}`}
               alt=""
               style={{ height: "1.4rem" }}
             />

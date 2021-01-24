@@ -1,8 +1,10 @@
 import { useQuery, useMutation, gql } from "@apollo/client"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import { useParams, Link } from "react-router-dom"
-import "../../styles/user.css"
 import { FaTimesCircle, FaSave } from "react-icons/fa"
+import UserContext from "../../userContext"
+import jwt from "jsonwebtoken"
+import "../../styles/user.css"
 
 const GET_USER = gql`
   query UserByName($name: String) {
@@ -33,9 +35,7 @@ const DELETE_ART = gql`
 `
 const UPDATE_PHOTO = gql`
   mutation UpdatePhoto($photo: Upload) {
-    updatePhoto(photo: $photo) {
-      photo
-    }
+    updatePhoto(photo: $photo)
   }
 `
 
@@ -51,12 +51,13 @@ function User() {
   let [intro, setIntro] = useState("")
   let [isProfile, setIsProfile] = useState(false)
   let { name } = useParams()
+  const userContext = useContext(UserContext)
 
   const { loading, error, data } = useQuery(GET_USER, {
     variables: { name },
   })
 
-  const [updatePhoto, { data: photoData }] = useMutation(UPDATE_PHOTO)
+  const [updatePhoto, { data: updatePhotoData }] = useMutation(UPDATE_PHOTO)
   const [updateIntro, { data: introData }] = useMutation(UPDATE_INTRO)
   const [deleteArt, { data: deletedArtdata }] = useMutation(DELETE_ART)
 
@@ -66,8 +67,21 @@ function User() {
 
     setUser(data.userByName)
     setIntro(data.userByName.intro || "")
-    if (data.userByName.id == localStorage.getItem("id")) setIsProfile(true)
+
+    if (data.userByName.id == userContext.id) setIsProfile(true)
   }, [data])
+
+  useEffect(() => {
+    if (!updatePhotoData) return
+    if (!updatePhotoData.updatePhoto) return
+
+    async function decode() {
+      let user = await jwt.decode(updatePhotoData.updatePhoto)
+      userContext.setPhoto(user.photo)
+    }
+    decode()
+    localStorage.setItem("token", updatePhotoData.updatePhoto)
+  }, [updatePhotoData])
 
   useEffect(() => {
     if (!deletedArtdata) return
@@ -101,7 +115,7 @@ function User() {
       <div id="infos">
         <div className="photo-wrapper">
           <img
-            src={`http://localhost:4000/${user?.photo}`}
+            src={`${process.env.REACT_APP_URL}/${userContext.photo}`}
             alt=""
             onClick={handleClick}
           />
@@ -122,10 +136,7 @@ function User() {
         ></textarea>
         {intro ? (
           <div>
-            <button
-              onClick={() => updateIntro({ variables: { intro } })}
-              style={{ backgroundColor: "green", color: "white" }}
-            >
+            <button onClick={() => updateIntro({ variables: { intro } })}>
               <FaSave id="save" />
               save
             </button>
@@ -141,7 +152,7 @@ function User() {
     return (
       <div id="infos">
         <div className="photo-wrapper">
-          <img src={`http://localhost:4000/${user?.photo}`} alt="" />
+          <img src={`${process.env.REACT_APP_URL}/${user?.photo}`} alt="" />
         </div>
         <p>{intro}</p>
       </div>
@@ -155,7 +166,7 @@ function User() {
 
         <div className="wrapper">
           <Link to={`/paintings/${a.id}`}>
-            <img src={`http://localhost:4000/${a.pic}.png`} alt="" />
+            <img src={`${process.env.REACT_APP_URL}/${a.pic}.png`} alt="" />
           </Link>
         </div>
         {isProfile ? (

@@ -1,11 +1,9 @@
 import { useLazyQuery, gql } from "@apollo/client"
 import { useEffect, useState } from "react"
-import { UserType } from "../../schema"
 import { Link } from "react-router-dom"
 import { useFormik } from "formik"
-import "../../styles/login.css"
 import logo from "./../../img/artist.png"
-import jwt from "jsonwebtoken"
+import "../../styles/sign.css"
 
 const LOG_IN = gql`
   query Login($name: String, $password: String) {
@@ -14,7 +12,6 @@ const LOG_IN = gql`
 `
 
 function Login() {
-  let [user, setUser] = useState()
   let [loginError, setLoginError] = useState("")
   const [login, { loading, data, error }] = useLazyQuery(LOG_IN)
 
@@ -37,36 +34,22 @@ function Login() {
       return
     }
 
-    async function decode() {
-      let user = await jwt.decode(data.login)
-      setUser(user)
-    }
-
     localStorage.setItem("token", data.login)
-    decode()
-  }, [data])
-
-  useEffect(() => {
-    if (!user) return
-
-    localStorage.setItem("id", user.id.toString())
-    localStorage.setItem("name", user.name.toString())
-    localStorage.setItem("photo", user.photo)
     window.location.href = "/paintings"
-  }, [user])
+  }, [data])
 
   if (loading) return <p>loading...</p>
   if (error) return <p>`Error! ${error}`</p>
 
   return (
-    <div id="login-page">
-      <img id="login-logo" src={logo} alt="" />
+    <section id="login">
+      <img src={logo} alt="" />
       <h1>Login</h1>
-      <form id="user-form" onSubmit={formik.handleSubmit} autoComplete="off">
+      <form onSubmit={formik.handleSubmit} autoComplete="off">
         <input
           type="text"
           name="name"
-          placeholder="name"
+          placeholder="username"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.name}
@@ -98,7 +81,7 @@ function Login() {
       <span id="not-a-user">
         not a user? <Link to="/register">register</Link>
       </span>
-    </div>
+    </section>
   )
 }
 

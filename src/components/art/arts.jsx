@@ -1,8 +1,9 @@
 import { useQuery, gql, useMutation } from "@apollo/client"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import { ArtType } from "../../schema"
 import Card from "./card"
 import "../../styles/arts.css"
+
 const GET_ARTS = gql`
   query {
     arts {
@@ -19,7 +20,7 @@ const GET_ARTS = gql`
 `
 
 function Arts() {
-  let [arts, setArts] = useState<ArtType[]>()
+  let [arts, setArts] = useState()
   const { loading, error, data } = useQuery(GET_ARTS)
 
   useEffect(() => {

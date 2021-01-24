@@ -1,17 +1,15 @@
 import { useMutation, gql, useLazyQuery } from "@apollo/client"
 import { useEffect, useState } from "react"
-import { UserType } from "../../schema"
 import { Link } from "react-router-dom"
 import logo from "../../img/artist.png"
 import { useFormik } from "formik"
 import * as Yup from "yup"
+import jwt from "jsonwebtoken"
+import "../../styles/sign.css"
+
 const ADD_USER = gql`
   mutation AddUser($name: String, $password: String) {
-    addUser(name: $name, password: $password) {
-      id
-      name
-      password
-    }
+    addUser(name: $name, password: $password)
   }
 `
 
@@ -24,9 +22,6 @@ const CHECK_NAME = gql`
 `
 
 function Register() {
-  let [user, setUser] = useState()
-  let [name, setName] = useState("")
-  let [password, setPassword] = useState("")
   const [addUser, { data }] = useMutation(ADD_USER)
   const [checkName, { loading, data: checkNameData, error }] = useLazyQuery(
     CHECK_NAME
@@ -43,7 +38,7 @@ function Register() {
         .min(3, "username must be at least 3 characters long")
         .matches(
           /^[a-z0-9_]+$/i,
-          "Username can only contain alphanumeric characters"
+          "Username can only contain alphanumeric characters and underscores"
         )
         .matches(
           /^[a-z].*/,
@@ -52,9 +47,6 @@ function Register() {
         .required("A username is required")
         .test("check username", "username already exists!", async (value) => {
           let fo = await checkName({ variables: { name: value } })
-          console.log(fo)
-          // let name = await loadCheck(value)
-          // console.log("name after resolve", name)
           return !checkNameData?.checkName
         }),
       password: Yup.string()
@@ -69,68 +61,19 @@ function Register() {
     },
   })
 
-  // let myPromise = new Promise(function (myResolve, myReject) {
-  //   // "Producing Code" (May take some time)
-  //   checkName({ variables: { name } })
-  //   if (!loading) myResolve() // when successful
-  //   myReject() // when error
-  // })
-
-  function em() {
-    console.log("em", formik.values.name)
-    return false
-  }
-
-  function loadCheck(name) {
-    let promise = new Promise(function (resolve, reject) {
-      console.log("1. name on check", name)
-      checkName({ variables: { name } })
-
-      while (loading) {
-        console.log("loading...")
-      }
-
-      console.log("2. the data after call", checkNameData?.checkName)
-      resolve(checkNameData?.checkName)
-    })
-
-    return promise
-  }
-
-  // useEffect(() => {
-  //   if (!formik.values?.name) return
-
-  //   console.log("calling checkName")
-  //   checkName({ variables: { name: formik.values.name } })
-  // }, [formik.values.name])
-
-  // useEffect(() => {
-  //   console.log("checkname data:", checkNameData)
-  // }, [checkNameData])
-
   useEffect(() => {
     if (!data) return
     if (!data.addUser) return
 
-    setUser(data.addUser)
-    console.log("my user: ", user)
-    // localStorage.setItem("userId", data.addUser.id)
-    // localStorage.setItem("userName", user?.name)
+    localStorage.setItem("token", data.addUser)
+    window.location.href = "/paintings"
   }, [data])
 
-  useEffect(() => {
-    if (!user) return
-
-    localStorage.setItem("id", user.id.toString())
-    localStorage.setItem("name", user.name.toString())
-    window.location.href = "/paintings"
-  }, [user])
-
   return (
-    <div>
-      <img id="login-logo" src={logo} alt="" />
+    <section id="register">
+      <img src={logo} alt="" />
       <h1>Register</h1>
-      <form id="user-form" onSubmit={formik.handleSubmit} autoComplete="off">
+      <form onSubmit={formik.handleSubmit} autoComplete="off">
         <input
           type="text"
           name="name"
@@ -162,8 +105,7 @@ function Register() {
       <span>
         already have an account? <Link to="/login">login</Link>
       </span>
-      {user ? <p>{user.name} was added!</p> : ""}
-    </div>
+    </section>
   )
 }
 export default Register

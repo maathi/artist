@@ -1,0 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=Yusei+Magic&display=swap");
+
+#login form,
+#register form {
+  font-family: "Yusei Magic", sans-serif;
+  width: 40vw;
+  margin: 1rem auto;
+  padding: 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  border: 5px solid white;
+  border-radius: 12px;
+}
+
+#login img,
+#register img {
+  margin-top: 2rem;
+}
+
+.error {
+  height: 1rem;
+  font-size: 13px;
+  color: rgb(240, 0, 0);
+}
+
+#not-a-user {
+  font-family: "Yusei Magic", sans-serif;
+  font-size: 18px;
+  margin-bottom: 3rem;
+}

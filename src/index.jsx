@@ -21,7 +21,9 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   return forward(operation)
 })
 
-const upoloadLink = createUploadLink({ uri: "http://localhost:4000/graphql" })
+const uri = `${process.env.REACT_APP_URL}/graphql`
+console.log("this is the uri baby", uri)
+const upoloadLink = createUploadLink({ uri })
 const client = new ApolloClient({
   link: concat(authMiddleware, upoloadLink),
   cache: new InMemoryCache(),

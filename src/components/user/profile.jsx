@@ -94,7 +94,7 @@ function Profile() {
         <div id="user">
           <div className="photo-wrapper">
             <img
-              src={`http://localhost:4000/${user.photo}`}
+              src={`${process.env.REACT_APP_URL}/${user.photo}`}
               alt=""
               onClick={handleClick}
             />
@@ -115,7 +115,10 @@ function Profile() {
 
                 <div className="wrapper">
                   <Link to={`/paintings/${a.id}`}>
-                    <img src={`http://localhost:4000/${a.pic}.png`} alt="" />
+                    <img
+                      src={`${process.env.REACT_APP_URL}/${a.pic}.png`}
+                      alt=""
+                    />
                   </Link>
                 </div>
                 <div>

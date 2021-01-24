@@ -1,10 +1,10 @@
 import { useMutation, gql } from "@apollo/client"
 import { useState, useEffect } from "react"
-import Canvas from "./canvas"
 import { HexColorPicker } from "react-colorful"
 import "react-colorful/dist/index.css"
 import { useFormik } from "formik"
 import * as Yup from "yup"
+import Canvas from "./canvas"
 
 const ADD_ART = gql`
   mutation AddArt($name: String, $file: Upload!, $description: String) {
@@ -16,10 +16,6 @@ const ADD_ART = gql`
 `
 
 function New() {
-  let [art, setArt] = useState()
-  // let [name, setName] = useState("")
-  // let [description, setDescription] = useState("")
-  let [file, setFile] = useState()
   let [color, setColor] = useState("#000")
   let [lineWidth, setLineWidth] = useState(3)
 
@@ -28,22 +24,26 @@ function New() {
   const formik = useFormik({
     initialValues: {
       name: "",
+      file: null,
       description: "",
     },
     validationSchema: Yup.object({
       name: Yup.string()
-        .max(15, "Must be 15 characters or less")
-        .min(3, "name must be at least 3 characters long")
-        .required("Required"),
-      description: Yup.string()
-        .max(20, "Must be 20 characters or less")
-        .required("Required"),
+        .max(20, "Title must be 20 characters or less")
+        .min(4, "Title must be at least 4 characters long")
+        .required("A title is required"),
+      file: Yup.mixed().test(
+        "required",
+        "you have to draw something",
+        (value) => value
+      ),
+      description: Yup.string().max(244, "Must be 244 characters or less"),
     }),
     onSubmit: (values) => {
       addArt({
         variables: {
           name: values.name,
-          file: file,
+          file: values.file,
           description: values.description,
         },
       })
@@ -53,7 +53,8 @@ function New() {
   useEffect(() => {
     if (!data) return
     if (!data.addArt) return
-    setArt(data.addArt)
+
+    window.location.href = "/paintings"
   }, [data])
 
   return (
@@ -62,7 +63,7 @@ function New() {
       <form onSubmit={formik.handleSubmit} autoComplete="off">
         <input
           name="name"
-          placeholder="name"
+          placeholder="title"
           value={formik.values.name}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
@@ -84,7 +85,14 @@ function New() {
             ? formik.errors.description
             : null}
         </div>
-        <Canvas color={color} lineWidth={lineWidth} setFile={setFile}></Canvas>
+        <Canvas
+          color={color}
+          lineWidth={lineWidth}
+          setFile={(file) => formik.setFieldValue("file", file)}
+        ></Canvas>
+        <div className="error">
+          {formik.errors.file ? formik.errors.file : null}
+        </div>
         <input
           type="range"
           min="1"
@@ -96,7 +104,6 @@ function New() {
         <HexColorPicker onChange={setColor} />
         <button type="submit">create</button>
       </form>
-      {art ? <p>{art.name} was added!</p> : ""}
     </div>
   )
 }

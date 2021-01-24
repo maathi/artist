@@ -43,7 +43,7 @@ function Art() {
     <div>
       <p>{art?.name}</p>
       <img
-        src={`http://localhost:4000/${art?.pic}.png`}
+        src={`${process.env.REACT_APP_URL}/${art?.pic}.png`}
         style={{
           backgroundColor: "rgb(209, 209, 209)",
           border: "3px solid black",
