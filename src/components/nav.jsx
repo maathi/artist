@@ -17,30 +17,42 @@ function Nav(props) {
   return (
     <ul id="nav">
       <li>
-        <Link to="/paintings">
+        <Link to="/artist">
           <img id="logo" src={logo} alt="" />
         </Link>
       </li>
-      <li>
-        <Link to="/paintings/new">
-          <FaPaintBrush id="brush" />
-        </Link>
-      </li>
-      <li>
-        <Link to="/paintings">paintings</Link>
-      </li>
-      <li>
-        <img
-          id="nav-pic"
-          src={`${process.env.REACT_APP_URL}/${userContext.photo}`}
-          alt=""
-        />
+      {userContext.id ? (
+        <li>
+          <Link to="/new">
+            <FaPaintBrush id="brush" />
+          </Link>
+        </li>
+      ) : (
+        ""
+      )}
+      {userContext.id ? (
+        <li>
+          <img
+            id="nav-pic"
+            src={`${process.env.REACT_APP_URL}/${userContext.photo}`}
+            alt=""
+          />
 
-        <Link to={"/@" + userContext.name}>{userContext.name}</Link>
-      </li>
-      <li>
-        <a onClick={logout}>logout</a>
-      </li>
+          <Link to={"/@" + userContext.name}>{userContext.name}</Link>
+        </li>
+      ) : (
+        ""
+      )}
+
+      {userContext.id ? (
+        <li>
+          <a onClick={logout}>logout</a>
+        </li>
+      ) : (
+        <li>
+          <Link to="/login">login</Link>
+        </li>
+      )}
     </ul>
   )
 }

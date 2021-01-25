@@ -165,7 +165,7 @@ function User() {
         <span id="name">{a.name}</span>
 
         <div className="wrapper">
-          <Link to={`/paintings/${a.id}`}>
+          <Link to={`/${a.id}`}>
             <img src={`${process.env.REACT_APP_URL}/${a.pic}.png`} alt="" />
           </Link>
         </div>

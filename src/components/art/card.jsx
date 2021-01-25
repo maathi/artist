@@ -8,7 +8,7 @@ function Card({ j }) {
       <span id="name">{j.name}</span>
 
       <div className="wrapper">
-        <Link to={`/paintings/${j.id}`}>
+        <Link to={`/${j.id}`}>
           <img src={`${process.env.REACT_APP_URL}/${j.pic}.png`} alt="" />
         </Link>
       </div>

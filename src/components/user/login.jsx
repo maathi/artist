@@ -35,7 +35,7 @@ function Login() {
     }
 
     localStorage.setItem("token", data.login)
-    window.location.href = "/paintings"
+    window.location.href = "/artist"
   }, [data])
 
   if (loading) return <p>loading...</p>

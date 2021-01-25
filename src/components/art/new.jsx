@@ -54,7 +54,7 @@ function New() {
     if (!data) return
     if (!data.addArt) return
 
-    window.location.href = "/paintings"
+    window.location.href = "/artist"
   }, [data])
 
   return (

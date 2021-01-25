@@ -40,18 +40,18 @@ function App() {
         value={{ id, setId, name, setName, photo, setPhoto, token }}
       >
         <div className="App">
-          {id ? <Nav></Nav> : ""}
+          <Nav></Nav>
           <Switch>
             <Route path="/@:name" component={User}></Route>
-            <PrivateRoute path="/paintings/new" component={New}></PrivateRoute>
-            <Route path="/paintings/:id">
-              <Art></Art>
-            </Route>
-            <Route path="/paintings">
+            <PrivateRoute path="/new" component={New}></PrivateRoute>
+            <Route path="/artist">
               <Arts></Arts>
             </Route>
             <SignRoute path="/login" component={Login}></SignRoute>
             <SignRoute path="/register" component={Register}></SignRoute>
+            <Route path="/:id">
+              <Art></Art>
+            </Route>
           </Switch>
         </div>
       </UserContext.Provider>
