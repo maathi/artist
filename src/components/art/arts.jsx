@@ -8,6 +8,7 @@ const GET_ARTS = gql`
   query {
     arts {
       id
+      rid
       name
       pic
       owner {

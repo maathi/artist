@@ -5,6 +5,17 @@ import "react-colorful/dist/index.css"
 import { useFormik } from "formik"
 import * as Yup from "yup"
 import Canvas from "./canvas"
+import "../../styles/new.css"
+import firebase from "firebase/app"
+import "firebase/storage"
+import shortid from "shortid"
+
+const firebaseConfig = {
+  storageBucket: "artist-4bd1b.appspot.com",
+}
+firebase.initializeApp(firebaseConfig)
+
+const storage = firebase.storage()
 
 const ADD_ART = gql`
   mutation AddArt($name: String, $file: Upload!, $description: String) {
@@ -39,7 +50,13 @@ function New() {
       ),
       description: Yup.string().max(244, "Must be 244 characters or less"),
     }),
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
+      let storageRef = storage.ref()
+      let fileName = shortid.generate()
+      let imageRef = storageRef.child(`paintings/${fileName}.png`)
+      let snapshot = await imageRef.put(values.file)
+      if (!snapshot) return
+      return
       addArt({
         variables: {
           name: values.name,
@@ -57,8 +74,12 @@ function New() {
     window.location.href = "/artist"
   }, [data])
 
+  function stepOne() {
+    return
+  }
+
   return (
-    <div>
+    <section id="new">
       <h2>add a new painting!</h2>
       <form onSubmit={formik.handleSubmit} autoComplete="off">
         <input
@@ -93,6 +114,7 @@ function New() {
         <div className="error">
           {formik.errors.file ? formik.errors.file : null}
         </div>
+        line width : {lineWidth}
         <input
           type="range"
           min="1"
@@ -100,11 +122,12 @@ function New() {
           value={lineWidth}
           onChange={(e) => setLineWidth(e.target.value)}
         ></input>
-        {lineWidth}
-        <HexColorPicker onChange={setColor} />
+        <div id="color-picker">
+          <HexColorPicker onChange={setColor} />
+        </div>
         <button type="submit">create</button>
       </form>
-    </div>
+    </section>
   )
 }
 

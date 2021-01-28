@@ -27,8 +27,9 @@
   transition: 0.3s;
 }
 
-textarea {
+#user textarea {
   /* display: block; */
+  width: 80%;
   border: none;
   color: rgb(211, 211, 211);
   font-size: inherit;

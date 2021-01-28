@@ -43,7 +43,6 @@ function Login() {
 
   return (
     <section id="login">
-      <img src={logo} alt="" />
       <h1>Login</h1>
       <form onSubmit={formik.handleSubmit} autoComplete="off">
         <input

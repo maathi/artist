@@ -1,23 +1,31 @@
-#nav {
+.nav {
   display: flex;
   padding-left: 0;
   padding-right: 1rem;
-  justify-content: flex-end;
   align-items: center;
-  column-gap: 3rem;
   margin: auto;
   list-style: none;
   background-color: black;
-  /* overflow: hidden; */
   font-size: 0.8rem;
   font-family: "Permanent Marker", cursive;
+  /* justify-content: flex-end;
+  column-gap: 3rem; */
+  /* height: 2.6rem; */
+}
+
+.nav-lg {
+  justify-content: flex-end;
+  column-gap: 3rem;
   height: 2.6rem;
-  /* vertical-align: middle; */
+}
+
+.nav-sm {
+  row-gap: 1rem;
+  flex-direction: column;
 }
 
 li:first-child {
   margin-right: auto;
-  color: #4caf50;
 }
 
 li > a {
@@ -45,7 +53,7 @@ li > a.active {
   color: white;
 }
 
-#nav > img {
+.nav > img {
   float: left;
   height: 100%;
 }
@@ -66,4 +74,19 @@ li > a.active {
 #brush {
   font-size: 18px;
   padding-top: 6px;
+}
+
+li#menu {
+  display: none;
+  cursor: pointer;
+  font-size: 1.4rem;
+}
+
+@media screen and (max-width: 520px) {
+  .nav li:not(:first-child) {
+    display: none;
+  }
+  li#menu {
+    display: block;
+  }
 }

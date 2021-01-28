@@ -131,9 +131,11 @@ function User() {
           onChange={(e) => setIntro(e.target.value)}
           name=""
           id=""
-          cols="50"
           placeholder="what's up?"
         ></textarea>
+        {/* <span contentEditable="true" onChange={(e) => console.log("sss")}>
+          {intro}
+        </span> */}
         {intro ? (
           <div>
             <button onClick={() => updateIntro({ variables: { intro } })}>

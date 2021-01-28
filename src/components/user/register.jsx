@@ -71,7 +71,6 @@ function Register() {
 
   return (
     <section id="register">
-      <img src={logo} alt="" />
       <h1>Register</h1>
       <form onSubmit={formik.handleSubmit} autoComplete="off">
         <input
