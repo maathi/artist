@@ -6,20 +6,12 @@ import { useFormik } from "formik"
 import * as Yup from "yup"
 import Canvas from "./canvas"
 import "../../styles/new.css"
-import firebase from "firebase/app"
-import "firebase/storage"
+import storage from "../../firebase"
 import shortid from "shortid"
 
-const firebaseConfig = {
-  storageBucket: "artist-4bd1b.appspot.com",
-}
-firebase.initializeApp(firebaseConfig)
-
-const storage = firebase.storage()
-
 const ADD_ART = gql`
-  mutation AddArt($name: String, $file: Upload!, $description: String) {
-    addArt(name: $name, file: $file, description: $description) {
+  mutation AddArt($name: String, $pic: String, $description: String) {
+    addArt(name: $name, pic: $pic, description: $description) {
       id
       name
     }
@@ -56,11 +48,11 @@ function New() {
       let imageRef = storageRef.child(`paintings/${fileName}.png`)
       let snapshot = await imageRef.put(values.file)
       if (!snapshot) return
-      return
+
       addArt({
         variables: {
           name: values.name,
-          file: values.file,
+          pic: fileName,
           description: values.description,
         },
       })

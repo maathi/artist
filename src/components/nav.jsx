@@ -47,7 +47,7 @@ function Nav(props) {
         <li>
           <img
             id="nav-pic"
-            src={`${process.env.REACT_APP_URL}/${userContext.photo}`}
+            src={`${process.env.REACT_APP_FBS}/avatars%2F${userContext.photo}?alt=media`}
             alt=""
           />
           <Link to={"/@" + userContext.name}>{userContext.name}</Link>

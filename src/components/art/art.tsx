@@ -43,7 +43,7 @@ function Art() {
     <div>
       <p>{art?.name}</p>
       <img
-        src={`${process.env.REACT_APP_URL}/${art?.pic}.png`}
+        src={`${process.env.REACT_APP_FBS}/paintings%2F${art?.pic}.png?alt=media`}
         style={{
           backgroundColor: "rgb(209, 209, 209)",
           border: "3px solid black",

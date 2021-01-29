@@ -5,6 +5,8 @@ import { FaTimesCircle, FaSave } from "react-icons/fa"
 import UserContext from "../../userContext"
 import jwt from "jsonwebtoken"
 import "../../styles/user.css"
+import storage from "../../firebase"
+import shortid from "shortid"
 
 const GET_USER = gql`
   query UserByName($name: String) {
@@ -34,7 +36,7 @@ const DELETE_ART = gql`
   }
 `
 const UPDATE_PHOTO = gql`
-  mutation UpdatePhoto($photo: Upload) {
+  mutation UpdatePhoto($photo: String) {
     updatePhoto(photo: $photo)
   }
 `
@@ -93,13 +95,20 @@ function User() {
     setUser(u)
   }, [deletedArtdata])
 
-  function handleUpload({
+  async function handleUpload({
     target: {
       validity,
       files: [photo],
     },
   }) {
-    validity.valid && updatePhoto({ variables: { photo } })
+    if (!validity.valid) return
+    console.log("name of photo", photo.name)
+    let storageRef = storage.ref()
+    let fileName = shortid.generate()
+    let imageRef = storageRef.child(`avatars/${fileName}`)
+    let snapshot = await imageRef.put(photo)
+    if (!snapshot) return
+    updatePhoto({ variables: { photo: fileName } })
   }
 
   function handleClick() {
@@ -115,7 +124,7 @@ function User() {
       <div id="infos">
         <div className="photo-wrapper">
           <img
-            src={`${process.env.REACT_APP_URL}/${userContext.photo}`}
+            src={`${process.env.REACT_APP_FBS}/avatars%2F${userContext.photo}?alt=media`}
             alt=""
             onClick={handleClick}
           />
@@ -168,7 +177,10 @@ function User() {
 
         <div className="wrapper">
           <Link to={`/${a.id}`}>
-            <img src={`${process.env.REACT_APP_URL}/${a.pic}.png`} alt="" />
+            <img
+              src={`${process.env.REACT_APP_FBS}/paintings%2F${a.pic}.png?alt=media`}
+              alt=""
+            />
           </Link>
         </div>
         {isProfile ? (

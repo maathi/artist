@@ -9,7 +9,10 @@ function Card({ j }) {
 
       <div className="wrapper">
         <Link to={`/${j.id}`}>
-          <img src={`${process.env.REACT_APP_URL}/${j.pic}.png`} alt="" />
+          <img
+            src={`${process.env.REACT_APP_FBS}/paintings%2F${j.pic}.png?alt=media`}
+            alt=""
+          />
         </Link>
       </div>
 
@@ -19,10 +22,9 @@ function Card({ j }) {
           <Link to={`/@${j.owner.name}`} style={{ color: "white" }}>
             {j.owner.name}
           </Link>
-
           <Link to={`/@${j.owner.name}`}>
             <img
-              src={`${process.env.REACT_APP_URL}/${j.owner.photo}`}
+              src={`${process.env.REACT_APP_FBS}/avatars%2F${j.owner.photo}?alt=media`}
               alt=""
               style={{ height: "1.4rem" }}
             />
