@@ -28,12 +28,9 @@ function Art() {
   })
 
   useEffect(() => {
-    if (!data) return
-    console.log(data)
+    if (!data?.art) return
 
-    if (!data.art) return
     setArt(data.art)
-    console.log("my arts", art)
   }, [data])
 
   if (loading) return <p>Loading...</p>
@@ -42,6 +39,7 @@ function Art() {
   return (
     <div>
       <p>{art?.name}</p>
+
       <img
         src={`${process.env.REACT_APP_FBS}/paintings%2F${art?.pic}.png?alt=media`}
         style={{

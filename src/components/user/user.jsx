@@ -102,7 +102,6 @@ function User() {
     },
   }) {
     if (!validity.valid) return
-    console.log("name of photo", photo.name)
     let storageRef = storage.ref()
     let fileName = shortid.generate()
     let imageRef = storageRef.child(`avatars/${fileName}`)
@@ -163,7 +162,10 @@ function User() {
     return (
       <div id="infos">
         <div className="photo-wrapper">
-          <img src={`${process.env.REACT_APP_URL}/${user?.photo}`} alt="" />
+          <img
+            src={`${process.env.REACT_APP_FBS}/avatars%2F${user?.photo}?alt=media`}
+            alt=""
+          />
         </div>
         <p>{intro}</p>
       </div>
@@ -184,7 +186,7 @@ function User() {
           </Link>
         </div>
         {isProfile ? (
-          <div>
+          <div id="bottom">
             <FaTimesCircle
               id="delete"
               onClick={() => {
@@ -205,11 +207,19 @@ function User() {
   return (
     <div id="user">
       {isProfile ? profileInfo() : notProfileInfo()}
-      <div id="user-arts">
-        <h4>
-          <span>{user?.name}</span>'s paintings :
-        </h4>
-        <div className="arts">{user?.arts.map((a) => card(a))}</div>
+      <div>
+        {user?.arts[0] ? (
+          <div>
+            <h4>
+              <span>{user?.name}</span>'s paintings :
+            </h4>
+            <div className="arts">{user?.arts.map((a) => card(a))}</div>
+          </div>
+        ) : (
+          <h4>
+            <span>{user?.name}</span> has no paintings yet :/
+          </h4>
+        )}
       </div>
     </div>
   )

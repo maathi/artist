@@ -25,12 +25,8 @@ function Arts() {
   const { loading, error, data } = useQuery(GET_ARTS)
 
   useEffect(() => {
-    if (!data) return
-    console.log(data)
-
-    if (!data.arts) return
+    if (!data?.arts) return
     setArts(data.arts)
-    console.log("my arts", arts)
   }, [data])
 
   if (loading) return <p>Loading...</p>

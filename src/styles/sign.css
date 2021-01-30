@@ -1,5 +1,21 @@
-@import url("https://fonts.googleapis.com/css2?family=Yusei+Magic&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Yusei+Magic&display=swap"); */
 
+#logo-wrapper {
+  width: 8rem;
+  height: 8rem;
+  margin-bottom: 3rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+#logo-wrapper > img {
+  object-fit: cover;
+  border-radius: 100%;
+  border: 4px solid black;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+}
 #login form,
 #register form {
   font-family: "Yusei Magic", sans-serif;
