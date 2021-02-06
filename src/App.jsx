@@ -44,7 +44,7 @@ function App() {
           <Switch>
             <Route path="/@:name" component={User}></Route>
             <PrivateRoute path="/new" component={New}></PrivateRoute>
-            <Route path="/artist">
+            <Route path="/">
               <Arts></Arts>
             </Route>
             <SignRoute path="/login" component={Login}></SignRoute>
