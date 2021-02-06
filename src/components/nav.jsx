@@ -18,7 +18,8 @@ function Nav(props) {
 
   function logout() {
     localStorage.clear()
-    history.push("/login")
+    // history.push("/login")
+    window.location.href = "/login"
   }
 
   function guestNav() {

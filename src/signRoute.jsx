@@ -8,7 +8,7 @@ function SignRoute({ path, component }) {
   return !userContext.token ? (
     <Route path={path} component={component}></Route>
   ) : (
-    <Redirect to="/artist"></Redirect>
+    <Redirect to="/"></Redirect>
   )
 }
 
