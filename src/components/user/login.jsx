@@ -36,7 +36,7 @@ function Login() {
     }
 
     localStorage.setItem("token", data.login)
-    window.location.href = "/artist"
+    window.location.href = "/"
     // history.push("/artist")
   }, [data])
 

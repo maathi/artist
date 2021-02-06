@@ -63,7 +63,7 @@ function New() {
     if (!data) return
     if (!data.addArt) return
 
-    window.location.href = "/artist"
+    window.location.href = "/"
   }, [data])
 
   function stepOne() {

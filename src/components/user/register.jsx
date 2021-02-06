@@ -66,7 +66,7 @@ function Register() {
     if (!data.addUser) return
 
     localStorage.setItem("token", data.addUser)
-    window.location.href = "/artist"
+    window.location.href = "/"
   }, [data])
 
   return (

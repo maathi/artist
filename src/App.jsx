@@ -44,13 +44,14 @@ function App() {
           <Switch>
             <Route path="/@:name" component={User}></Route>
             <PrivateRoute path="/new" component={New}></PrivateRoute>
-            <Route path="/">
-              <Arts></Arts>
-            </Route>
+
             <SignRoute path="/login" component={Login}></SignRoute>
             <SignRoute path="/register" component={Register}></SignRoute>
             <Route path="/:id">
               <Art></Art>
+            </Route>
+            <Route path="/">
+              <Arts></Arts>
             </Route>
           </Switch>
         </div>

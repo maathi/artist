@@ -25,7 +25,7 @@ function Nav(props) {
     return (
       <ul className="nav">
         <li>
-          <Link to="/artist">
+          <Link to="/">
             <img id="logo" src={logo} alt="" />
           </Link>
         </li>
@@ -63,7 +63,7 @@ function Nav(props) {
   return (
     <ul className={classes} style={style}>
       <li>
-        <Link to="/artist">
+        <Link to="/">
           <img id="logo" src={logo} alt="" />
         </Link>
       </li>
