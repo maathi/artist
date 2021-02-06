@@ -1,6 +1,6 @@
 import { useLazyQuery, gql } from "@apollo/client"
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import { useFormik } from "formik"
 // import logo from "./../../img/artist.png"
 import "../../styles/sign.css"
@@ -12,6 +12,7 @@ const LOG_IN = gql`
 `
 
 function Login() {
+  let history = useHistory()
   let [loginError, setLoginError] = useState("")
   const [login, { loading, data, error }] = useLazyQuery(LOG_IN)
 
@@ -36,6 +37,7 @@ function Login() {
 
     localStorage.setItem("token", data.login)
     window.location.href = "/artist"
+    // history.push("/artist")
   }, [data])
 
   if (loading) return <p>loading...</p>

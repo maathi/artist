@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import logo from "../img/artist.png"
 import { FaPaintBrush } from "react-icons/fa"
 import "../styles/navbar.css"
@@ -8,6 +8,7 @@ import { BiMenu } from "react-icons/bi"
 
 function Nav(props) {
   const userContext = useContext(UserContext)
+  const history = useHistory()
   let [classes, setClasses] = useState("nav")
   let [style, setStyle] = useState({
     justifyContent: "flex-end",
@@ -17,7 +18,7 @@ function Nav(props) {
 
   function logout() {
     localStorage.clear()
-    window.location.href = "/login"
+    history.push("/login")
   }
 
   function guestNav() {
